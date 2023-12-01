@@ -1,12 +1,15 @@
-import {BadRequestException, Injectable} from '@nestjs/common';
+import {BadRequestException, Inject, Injectable} from '@nestjs/common';
 import ContentTypeDto from './content-type.dto';
-import {DEFAULT_PROJECT_PATH, DEFAULT_SOURCE_PATH, ERRORS} from '../constant';
+import {DEFAULT_SOURCE_PATH, ERRORS} from '../constant';
 import {ShellService} from "../services/shell.service";
 import {CommandService} from "../services/command.service";
+import {AnatoliaConfiguration} from "../anatolia.config";
 
 @Injectable()
 export class ContentTypeService {
   constructor(
+      @Inject('AnatoliaConfiguration')
+      private anatoliaConfiguration: AnatoliaConfiguration,
       private readonly shellService: ShellService,
       private readonly commandService: CommandService
   ) {
@@ -15,7 +18,7 @@ export class ContentTypeService {
   public create(contentTypeDto: ContentTypeDto) {
     if (
         this.shellService.isContentTypeInitialized(
-            `${DEFAULT_PROJECT_PATH}/${DEFAULT_SOURCE_PATH}`,
+            `${this.anatoliaConfiguration.workingDirectory}/${DEFAULT_SOURCE_PATH}`,
             contentTypeDto.name,
         )
     ) {

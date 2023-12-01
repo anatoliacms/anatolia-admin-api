@@ -1,7 +1,6 @@
 import {Injectable} from '@nestjs/common';
 import {exec, execSync, spawnSync} from 'child_process';
 import {readdir} from 'fs/promises';
-import {DEFAULT_PROJECT_PATH, DEFAULT_SOURCE_PATH} from "../constant";
 import fs = require('fs');
 
 @Injectable()

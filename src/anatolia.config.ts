@@ -8,5 +8,6 @@ export interface AnatoliaConfiguration {
         database: string
         autoLoadEntities: boolean
         synchronize: boolean
-    }
+    },
+    workingDirectory: string
 }
