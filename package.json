@@ -1,0 +1,20 @@
+{
+  "name": "@anatoliacms/anatolia-cms",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rimraf dist && tsc",
+    "prepublish": "npm run build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@nestjs/common": "^10.2.10",
+    "@types/node": "^20.10.1",
+    "rimraf": "^5.0.5",
+    "rxjs": "^7.8.1",
+    "typescript": "^5.3.2"
+  }
+}
