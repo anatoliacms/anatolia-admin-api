@@ -11,17 +11,17 @@ export class ProjectController {
     return this.projectService;
   }
 
-  @Post('initialize')
+  @Post()
   initProject(@Body() dto: ProjectDTO) {
-    return this.getService().initializeProject(dto);
+    return this.getService().create(dto);
   }
 
-  @Post('run')
+  @Post('up')
   run(@Body() dto: ProjectDTO) {
-    return this.getService().run(dto);
+    return this.getService().up(dto);
   }
 
-  @Get()
+  @Get('list')
   list() {
     return this.getService().listProjects();
   }

@@ -10,5 +10,5 @@ export class AnatoliaCMSModule {
             imports: [ProjectModule, ContentTypeModule],
             exports: [ProjectModule, ContentTypeModule]
         }
-    }
+    }Ï
 }

@@ -1,56 +1,51 @@
 import {BadRequestException, Injectable} from '@nestjs/common';
-import {ShellService} from "../services/shell/shell.service";
+import {ShellService} from "../services/shell.service";
 import ProjectDTO from "./project.dto";
+import {CommandService} from "../services/command.service";
+import {ERRORS} from "../constant";
 
 @Injectable()
 export class ProjectService {
   constructor(
       private readonly shellService: ShellService,
+      private readonly commandService: CommandService
   ) {
   }
 
-  public initializeProject(dto: ProjectDTO) {
+  public create(dto: ProjectDTO) {
     if (this.shellService.isProjectInitialized(dto.name)) {
       throw new BadRequestException(
-          'Project is already created with given name. Please change working directory or project name.',
+          ERRORS.PROJECT_ALREADY_INITIALIZED.error,
           {
             cause: new Error(),
-            description: 'Bad Request',
+            description: ERRORS.PROJECT_ALREADY_INITIALIZED.error,
           },
       );
     }
 
-    const output = this.shellService.executeCommand('nest', [
-      'new',
-      dto.name,
-      '-p',
-      'npm',
-      '-g',
-      '--strict',
-      '--directory',
-      `./projects/${dto.name}`,
-    ]);
+    // Create a project
+    const cmdCreate = this.commandService.createProject(dto.name, dto.name)
+    const output = this.shellService.execSync(cmdCreate);
 
-    //install typeorm dependencies
-    this.shellService.execSync(
-        `cd ./projects/${dto.name} && npm install --save @nestjs/typeorm typeorm mysql2`,
-    );
+    // Install dependencies
+    const cmdPostCreation = this.commandService.postCreation(dto.name)
+    this.shellService.execSync(cmdPostCreation);
 
-    return output.stdout.toString();
+    return output.toString();
   }
 
-  public run(dto: ProjectDTO) {
+  public up(dto: ProjectDTO) {
     if (!this.shellService.isProjectInitialized(dto.name)) {
       throw new BadRequestException(
-          'Project not found. Please initialize a project.',
+          ERRORS.PROJECT_NOT_FOUND.error,
           {
             cause: new Error(),
-            description: 'Bad Request',
+            description: ERRORS.PROJECT_NOT_FOUND.description,
           },
       );
     }
 
-    const command = `cd ./projects/${dto.name} && npm run start`;
+    const command = this.commandService.up(dto.name);
 
     const out = this.shellService.execAsync(command);
 
