@@ -1,6 +1,7 @@
 {
-  "name": "@anatoliacms/anatolia-cms",
+  "name": "@anatoliacms/anatolia-core",
   "version": "1.0.0",
+  "version-name": "sumerian",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
