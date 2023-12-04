@@ -1,7 +1,6 @@
 import {Injectable} from '@nestjs/common';
 import {exec, execSync, spawnSync} from 'child_process';
 import {readdir} from 'fs/promises';
-import {DEFAULT_PROJECT_PATH, DEFAULT_SOURCE_PATH} from "../../constant";
 import fs = require('fs');
 
 @Injectable()
@@ -33,14 +32,5 @@ export class ShellService {
     return (await readdir(path, { withFileTypes: true }))
       .filter((dirent) => dirent.isDirectory())
       .map((dir) => dir.name);
-  }
-
-  private formatCode() {
-    console.log('code formattion')
-    execSync('npm run format')
-  }
-
-  public getSourcePath(projectName: string) {
-    return `${DEFAULT_PROJECT_PATH}/${projectName}/${DEFAULT_SOURCE_PATH}`
   }
 }
