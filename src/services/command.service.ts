@@ -26,8 +26,12 @@ export class CommandService {
         return `cd ${this.anatoliaConfiguration.workingDirectory}/${projectName} && npm run start`;
     }
 
+    public updateAppModule(projectName: string) {
+        return `cd ${this.anatoliaConfiguration.workingDirectory}/${projectName}/${DEFAULT_SOURCE_PATH} && anatolia --init '${JSON.stringify(this.anatoliaConfiguration.database)}'`;
+    }
+
     public createContentType(projectName: string, contentTypeName:string, columns: string) {
-        return `cd ${this.anatoliaConfiguration.workingDirectory}/${projectName}/${DEFAULT_SOURCE_PATH} && anatolia -n ${contentTypeName} -c '${columns}'`
+        return `cd ${this.anatoliaConfiguration.workingDirectory}/${projectName}/${DEFAULT_SOURCE_PATH} && anatolia -n ${contentTypeName} -c '${columns}' && anatolia --init '${JSON.stringify(this.anatoliaConfiguration.database)}'`
     }
 
     public updateContentType(projectName: string, contentTypeName:string, columns: string) {

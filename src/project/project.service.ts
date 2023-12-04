@@ -31,6 +31,10 @@ export class ProjectService {
     const cmdPostCreation = this.commandService.postCreation(dto.name)
     this.shellService.execSync(cmdPostCreation);
 
+    //Update App Module
+    const cmdUpdateAppModule = this.commandService.updateAppModule(dto.name);
+    this.shellService.execSync(cmdUpdateAppModule);
+
     return output.toString();
   }
 
